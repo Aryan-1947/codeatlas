@@ -337,7 +337,7 @@ export default function Landing() {
         <UserRound size={16} strokeWidth={2.4} />
       </span>
       <span className="flex-1 text-[13px] font-semibold text-[#2b1e63]">
-        You're browsing as a guest — you can diagram the examples above.{" "}
+        You're browsing as a guest - you can diagram the examples above.{" "}
         <span className="font-bold underline underline-offset-2">Sign in with your email</span> to diagram
         any repo and keep a private history.
       </span>

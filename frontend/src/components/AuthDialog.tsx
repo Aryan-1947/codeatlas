@@ -71,7 +71,7 @@ export default function AuthDialog({ open, onClose }: { open: boolean; onClose: 
 
           <p className="flex gap-2 rounded-lg border-2 border-line bg-mint p-3 text-xs font-medium leading-relaxed text-[#0e4f3a]">
             <ShieldCheck size={15} className="mt-0.5 shrink-0" />
-            Your account is secured by Auth0. Diagrams and history stay private to your account — other accounts
+            Your account is secured by Auth0. Diagrams and history stay private to your account - other accounts
             signed in here will never see them.
           </p>
         </div>
