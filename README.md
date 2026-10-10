@@ -4,6 +4,18 @@
 
 CodeAtlas turns a GitHub repository into an interactive architecture diagram. Paste `owner/repo` or a GitHub URL and it reads the repository's structure, asks an LLM to work out the main components and how they connect, draws them as a clickable diagram, writes a short walkthrough, and lets you ask questions about the codebase.
 
+**Live demo: [codeatlas-plum.vercel.app](https://codeatlas-plum.vercel.app)**
+
+---
+
+## How to use
+
+1. Open the [live app](https://codeatlas-plum.vercel.app).
+2. Paste a repository as `owner/repo` or a full GitHub URL, or click one of the example repos on the home page, and click **Diagram**.
+3. As a guest, only the example repos (`fastapi/fastapi`, `streamlit/streamlit`, `pallets/flask`, `axios/axios`) can be diagrammed. Sign in with Google or GitHub to diagram any public repo and keep a saved history.
+4. Once generated, explore the **Walkthrough** and **Explorer** tabs, click any diagram node to open the real file on GitHub, or open **Ask** to chat about the codebase (signed-in only).
+5. To diagram a private repo, click **Access token** in the header and paste a GitHub personal access token with `repo` scope (see [Private repositories](#private-repositories)).
+
 ---
 
 ## What it does
@@ -58,7 +70,6 @@ Progress is real, not simulated. The generate endpoint streams events: `stage`, 
 ```
 codeatlas/
 ├── package.json              # runs frontend and backend together
-├── LICENSE
 ├── frontend/
 │   ├── .env.example
 │   └── src/
