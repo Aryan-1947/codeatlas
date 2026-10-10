@@ -1,0 +1,366 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Space Grotesk", "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-heavy: "Archivo Black", "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+
+  /* ---- Neo-brutalist light palette ---- */
+  --color-paper: #faf6ec;
+  --color-surface: #ffffff;
+  --color-sunken: #f1ecdd;
+  --color-ink: #141414;
+  --color-ink-2: #3d3a33;
+  --color-muted: #6e6a5e;
+  --color-line: #141414;
+  --color-line-2: #141414;
+  --color-accent: #7a5cff;
+  --color-accent-ink: #5b3fe6;
+  --color-accent-soft: #e9e2ff;
+  --color-accent-line: #c8b9ff;
+  --color-teal: #0e8f6b;
+  --color-teal-soft: #cdefdf;
+  --color-amber: #b07708;
+  --color-amber-soft: #ffe9a8;
+  --color-rose: #d93a5e;
+  --color-rose-soft: #ffd3dd;
+  --color-mint: #cdefdf;
+  --color-lavend: #e9e2ff;
+  --color-sky: #cfe6ff;
+  --color-peach: #ffe1c9;
+  --color-banana: #ffdd57;
+
+  --color-shadow: #141414;
+}
+
+.dark {
+  /* ---- Neo-brutalist dark palette: built directly from the light mode logic ---- */
+  /* Backgrounds shift to deep tones. Borders & shadows become pure black to maintain weight. */
+  --color-paper: #18181b;     /* Deep dark grey base */
+  --color-surface: #27272a;   /* Slightly elevated grey for cards */
+  --color-sunken: #1c1c1f;    /* Inset grey — not near-black */
+  
+  --color-ink: #f4f4f5;       /* Off-white primary text */
+  --color-ink-2: #a1a1aa;     /* Muted secondary text */
+  --color-muted: #71717a;     /* Tertiary text */
+  
+  --color-line: #000000;      /* Pure black borders for brutalist contrast on grey */
+  --color-line-2: #000000;
+  --color-shadow: #000000;    /* Pure black hard shadows */
+  
+  /* Brand purple — same hue, brightened slightly for dark mode contrast */
+  --color-accent: #8b5cf6;
+  --color-accent-ink: #a78bfa;
+  --color-accent-soft: #2e1065;
+  --color-accent-line: #4c1d95;
+  
+  /* Pastels shift to deep, saturated jewel/muted tones */
+  --color-teal: #10b981;
+  --color-teal-soft: #064e3b;
+  --color-amber: #f59e0b;
+  --color-amber-soft: #451a03;
+  --color-rose: #f43f5e;
+  --color-rose-soft: #4c0519;
+  
+  --color-mint: #064e3b;
+  --color-lavend: #2e1065;
+  --color-sky: #0f172a;
+  --color-peach: #431407;
+  --color-banana: #422006;
+}
+
+/* Base body uses the paper background */
+.dark body {
+  background-color: var(--color-paper);
+}
+
+/* Dark mode keeps the exact same corner radii as light mode — no shape shifting */
+
+/* Hero split: white top line, vivid purple bottom line */
+.dark .hero-line {
+  color: var(--color-ink);
+}
+.dark .hero-accent {
+  color: var(--color-accent);
+}
+
+/* Green neon capsule above the hero (retained custom ornament style) */
+.dark .badge-neon {
+  background: #064e3b;
+  border-color: #000000;
+  color: #34d399;
+}
+.dark .badge-neon .pulse-dot {
+  background: #34d399;
+}
+
+/* Dark-mode inputs: match elevated surface so they don't look like a black strip */
+.dark input,
+.dark textarea {
+  background-color: var(--color-surface);
+  color: var(--color-ink);
+}
+.dark input::placeholder,
+.dark textarea::placeholder {
+  color: var(--color-muted);
+}
+
+html {
+  scroll-behavior: smooth;
+  overscroll-behavior-y: none;
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-line) transparent;
+}
+html::-webkit-scrollbar {
+  width: 10px;
+}
+html::-webkit-scrollbar-thumb {
+  background: var(--color-line);
+  border: 2px solid var(--color-paper);
+}
+html::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+body {
+  @apply bg-paper text-ink font-sans antialiased;
+  text-rendering: optimizeLegibility;
+  overscroll-behavior-y: none;
+}
+
+::selection {
+  background: var(--color-accent);
+  color: #fff;
+}
+
+/* ------------------------- Neo-brutalist global rules ------------------------- */
+
+/* Thick 2px borders everywhere */
+.border,
+.border-t,
+.border-b,
+.border-l,
+.border-r,
+.border-2 {
+  border-width: 2px;
+}
+.divide-x > :not([hidden]) ~ :not([hidden]) {
+  border-left-width: 2px;
+}
+
+/* Squared-ish corners in light mode: raw, engineered, never soft */
+.rounded-2xl { border-radius: 10px; }
+.rounded-xl { border-radius: 8px; }
+.rounded-lg { border-radius: 6px; }
+.rounded-md { border-radius: 4px; }
+
+/* Hard, flat, offset shadows — zero blur */
+.shadow-sm {
+  box-shadow: 3px 3px 0 0 var(--color-shadow) !important;
+}
+.shadow-card {
+  box-shadow: 5px 5px 0 0 var(--color-shadow) !important;
+}
+.shadow-pop {
+  box-shadow: 8px 8px 0 0 var(--color-shadow) !important;
+}
+.shadow-lg,
+.shadow-md {
+  box-shadow: 6px 6px 0 0 var(--color-shadow) !important;
+}
+
+/* No glass, no glow, no gradients of softness */
+.backdrop-blur,
+.backdrop-blur-sm,
+.backdrop-blur-md,
+.backdrop-blur-lg,
+.backdrop-blur-\[2px\] {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+/* Physical press: hover sinks 2px, active sinks fully */
+.brut-press {
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+.brut-press:hover {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0 0 var(--color-shadow) !important;
+}
+.brut-press:active {
+  transform: translate(4px, 4px);
+  box-shadow: 0px 0px 0 0 var(--color-shadow) !important;
+}
+.brut-press-sm {
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+.brut-press-sm:hover {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0 0 var(--color-shadow) !important;
+}
+.brut-press-sm:active {
+  transform: translate(3px, 3px);
+  box-shadow: 0px 0px 0 0 var(--color-shadow) !important;
+}
+
+/* Card hover lift replaced with a sink-and-snap */
+.brut-card {
+  transition: transform 0.14s ease, box-shadow 0.14s ease;
+}
+.brut-card:hover {
+  transform: translate(2px, 2px);
+  box-shadow: 3px 3px 0 0 var(--color-shadow) !important;
+}
+
+/* ── Doodle pattern: single layer, no overlap ── */
+.bg-doodle {
+  background-color: var(--color-paper);
+  background-image: url("data:image/svg+xml,%3Csvg width='360' height='360' xmlns='http://www.w3.org/2000/svg'%3E%3Cg stroke='%237a5cff' stroke-width='2.2' fill='none' opacity='0.22' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='44' cy='48' r='14'/%3E%3Crect x='104' y='34' width='42' height='28' rx='6'/%3E%3Cpath d='M58 48 Q80 48 104 48'/%3E%3Cpath d='M97 43 L104 48 L97 53'/%3E%3Crect x='188' y='34' width='42' height='28' rx='6'/%3E%3Cpath d='M146 48 Q166 48 188 48'/%3E%3Cpath d='M181 43 L188 48 L181 53'/%3E%3Cpath d='M210 62 Q210 88 130 88 Q50 88 44 62' stroke-dasharray='5 4'/%3E%3Cpath d='M39 68 L44 62 L49 68'/%3E%3Cellipse cx='302' cy='48' rx='24' ry='9'/%3E%3Cpath d='M278 48 L278 78'/%3E%3Cpath d='M326 48 L326 78'/%3E%3Cellipse cx='302' cy='78' rx='24' ry='9'/%3E%3Crect x='42' y='176' width='48' height='30' rx='6'/%3E%3Cpath d='M90 191 Q112 191 132 191'/%3E%3Cpath d='M125 186 L132 191 L125 196'/%3E%3Cpath d='M150 166 L176 142 L202 166 L176 190 Z'/%3E%3Cpath d='M202 166 Q228 166 248 166'/%3E%3Cpath d='M241 161 L248 166 L241 171'/%3E%3Crect x='248' y='152' width='52' height='28' rx='5'/%3E%3Cpath d='M176 190 L176 214'/%3E%3Cpath d='M171 207 L176 214 L181 207'/%3E%3Ccircle cx='176' cy='232' r='12'/%3E%3Cpath d='M52 298 Q40 298 40 310 Q40 322 28 322 Q40 322 40 334 Q40 346 52 346'/%3E%3Cpath d='M76 298 Q88 298 88 310 Q88 322 100 322 Q88 322 88 334 Q88 346 76 346'/%3E%3Ccircle cx='130' cy='310' r='10'/%3E%3Ccircle cx='130' cy='334' r='10'/%3E%3Cpath d='M100 310 L120 310'/%3E%3Cpath d='M100 334 L120 334'/%3E%3Crect x='232' y='276' width='34' height='22' rx='4'/%3E%3Crect x='282' y='276' width='34' height='22' rx='4'/%3E%3Crect x='232' y='316' width='34' height='22' rx='4'/%3E%3Crect x='282' y='316' width='34' height='22' rx='4'/%3E%3Cpath d='M266 287 L282 287'/%3E%3Cpath d='M275 283 L282 287 L275 291'/%3E%3Cpath d='M249 298 L249 316'/%3E%3Cpath d='M299 298 L299 316'/%3E%3Cpath d='M266 327 L282 327'/%3E%3Cpath d='M275 323 L282 327 L275 331'/%3E%3Ccircle cx='324' cy='202' r='10'/%3E%3Ccircle cx='324' cy='236' r='10'/%3E%3Cpath d='M324 212 L324 226'/%3E%3Cpath d='M319 219 L324 226 L329 219'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: 360px 360px;
+}
+
+.dark .bg-doodle {
+  background-color: var(--color-paper);
+  background-image: url("data:image/svg+xml,%3Csvg width='360' height='360' xmlns='http://www.w3.org/2000/svg'%3E%3Cg stroke='%238b5cf6' stroke-width='2' fill='none' opacity='0.06' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='44' cy='48' r='14'/%3E%3Crect x='104' y='34' width='42' height='28' rx='6'/%3E%3Cpath d='M58 48 Q80 48 104 48'/%3E%3Cpath d='M97 43 L104 48 L97 53'/%3E%3Crect x='188' y='34' width='42' height='28' rx='6'/%3E%3Cpath d='M146 48 Q166 48 188 48'/%3E%3Cpath d='M181 43 L188 48 L181 53'/%3E%3Cpath d='M210 62 Q210 88 130 88 Q50 88 44 62' stroke-dasharray='5 4'/%3E%3Cpath d='M39 68 L44 62 L49 68'/%3E%3Cellipse cx='302' cy='48' rx='24' ry='9'/%3E%3Cpath d='M278 48 L278 78'/%3E%3Cpath d='M326 48 L326 78'/%3E%3Cellipse cx='302' cy='78' rx='24' ry='9'/%3E%3Crect x='42' y='176' width='48' height='30' rx='6'/%3E%3Cpath d='M90 191 Q112 191 132 191'/%3E%3Cpath d='M125 186 L132 191 L125 196'/%3E%3Cpath d='M150 166 L176 142 L202 166 L176 190 Z'/%3E%3Cpath d='M202 166 Q228 166 248 166'/%3E%3Cpath d='M241 161 L248 166 L241 171'/%3E%3Crect x='248' y='152' width='52' height='28' rx='5'/%3E%3Cpath d='M176 190 L176 214'/%3E%3Cpath d='M171 207 L176 214 L181 207'/%3E%3Ccircle cx='176' cy='232' r='12'/%3E%3Cpath d='M52 298 Q40 298 40 310 Q40 322 28 322 Q40 322 40 334 Q40 346 52 346'/%3E%3Cpath d='M76 298 Q88 298 88 310 Q88 322 100 322 Q88 322 88 334 Q88 346 76 346'/%3E%3Ccircle cx='130' cy='310' r='10'/%3E%3Ccircle cx='130' cy='334' r='10'/%3E%3Cpath d='M100 310 L120 310'/%3E%3Cpath d='M100 334 L120 334'/%3E%3Crect x='232' y='276' width='34' height='22' rx='4'/%3E%3Crect x='282' y='276' width='34' height='22' rx='4'/%3E%3Crect x='232' y='316' width='34' height='22' rx='4'/%3E%3Crect x='282' y='316' width='34' height='22' rx='4'/%3E%3Cpath d='M266 287 L282 287'/%3E%3Cpath d='M275 283 L282 287 L275 291'/%3E%3Cpath d='M249 298 L249 316'/%3E%3Cpath d='M299 298 L299 316'/%3E%3Cpath d='M266 327 L282 327'/%3E%3Cpath d='M275 323 L282 327 L275 331'/%3E%3Ccircle cx='324' cy='202' r='10'/%3E%3Ccircle cx='324' cy='236' r='10'/%3E%3Cpath d='M324 212 L324 226'/%3E%3Cpath d='M319 219 L324 226 L329 219'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: 360px 360px;
+}
+
+/* Thin styled scrollbars — chunky thumb */
+.nice-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-line) transparent;
+}
+.nice-scroll::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+.nice-scroll::-webkit-scrollbar-thumb {
+  background: var(--color-line);
+  border-radius: 0;
+  border: 2px solid var(--color-surface);
+}
+.nice-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Keyboard hint chip */
+.kbd {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  font-weight: 600;
+  line-height: 1;
+  padding: 4px 7px;
+  border-radius: 4px;
+  border: 2px solid var(--color-line);
+  background: var(--color-surface);
+  color: var(--color-ink);
+  box-shadow: 2px 2px 0 0 var(--color-shadow);
+}
+.dark .kbd {
+  border-radius: 8px;
+}
+
+/* Streaming caret */
+.stream-caret::after {
+  content: "";
+  display: inline-block;
+  width: 9px;
+  height: 15px;
+  margin-left: 3px;
+  vertical-align: -2px;
+  background: var(--color-accent);
+  animation: caret-blink 0.9s steps(2) infinite;
+}
+@keyframes caret-blink {
+  50% { opacity: 0; }
+}
+
+@keyframes rise-in {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: none; }
+}
+.rise-in { animation: rise-in 0.5s cubic-bezier(0.22, 1, 0.36, 1) both; }
+.rise-1 { animation-delay: 0.05s; }
+.rise-2 { animation-delay: 0.12s; }
+.rise-3 { animation-delay: 0.2s; }
+.rise-4 { animation-delay: 0.28s; }
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.35; }
+}
+.pulse-dot { animation: pulse-dot 1.4s ease-in-out infinite; }
+
+@keyframes spin-slow {
+  to { transform: rotate(360deg); }
+}
+.spin-slow { animation: spin-slow 0.9s linear infinite; }
+
+/* Chat drawer slide */
+.chat-drawer {
+  transition: transform 0.24s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.chat-drawer[data-open="false"] {
+  transform: translateX(105%);
+}
+.chat-drawer[data-open="true"] {
+  transform: translateX(0);
+}
+
+/* Typing indicator dots */
+.typing-dots span {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 2px;
+  background: var(--color-line);
+  animation: typing-hop 1s ease-in-out infinite;
+}
+.typing-dots span:nth-child(2) { animation-delay: 0.15s; }
+.typing-dots span:nth-child(3) { animation-delay: 0.3s; }
+@keyframes typing-hop {
+  0%, 100% { transform: translateY(0); }
+  40% { transform: translateY(-4px); }
+}
+
+/* ---------- Mermaid diagram styling hooks ---------- */
+.mermaid-stage {
+  touch-action: none;
+  user-select: none;
+}
+.mermaid-stage svg {
+  display: block;
+  max-width: none !important;
+}
+.mermaid-stage .node {
+  cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'><path d='M9 2a1.5 1.5 0 0 1 1.5 1.5V11l1-.3V5a1.5 1.5 0 0 1 3 0v5.5l1-.2V7a1.5 1.5 0 0 1 3 0v7a6 6 0 0 1-6 6h-1a6 6 0 0 1-5-2.7L3.3 13A1.5 1.5 0 1 1 5.7 11L7.5 13V3.5A1.5 1.5 0 0 1 9 2Z' fill='white' stroke='black' stroke-width='1.3'/></svg>") 10 2, pointer;
+}
+.mermaid-stage .node .nodeLabel {
+  pointer-events: none;
+}
+.mermaid-stage g.node {
+  transition: filter 0.1s ease;
+}
+.mermaid-stage g.node:hover {
+  filter: drop-shadow(3px 3px 0 var(--color-shadow));
+}
+.mermaid-stage .edgeLabel {
+  background-color: transparent !important;
+}
+.mermaid-stage foreignObject {
+  overflow: visible;
+}
+
+/* Fix hardcoded text colours on dark pastel chips */
+.dark .text-\[\#141414\] { color: #ffffff; }
+.dark .text-\[\#0e4f3a\] { color: #ffffff; }
+.dark .text-\[\#0e8f6b\] { color: #ffffff; }
+.dark .text-\[\#2b1e63\] { color: #ffffff; }
+.dark .text-\[\#0d2f52\] { color: #ffffff; }
+.dark .text-\[\#7a3806\] { color: #ffffff; }
+
+.dark .bg-ink { background: var(--color-surface); }
+.dark .text-paper { color: var(--color-ink); }
