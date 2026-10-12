@@ -7,7 +7,7 @@ export default function App() {
   const route = useRoute();
 
   return (
-    <div className="min-h-screen bg-paper text-ink">
+    <div className="min-h-dvh bg-paper text-ink">
     <Header />
     {route.kind === "home" ? (
       <Landing />

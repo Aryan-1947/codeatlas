@@ -30,7 +30,7 @@ export default function AuthDialog({ open, onClose }: { open: boolean; onClose: 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4" onClick={onClose}>
       <div
-        className="w-full max-w-md rounded-2xl border-2 border-line bg-surface p-6 shadow-pop"
+        className="max-h-[90dvh] w-full max-w-md overflow-y-auto rounded-2xl border-2 border-line bg-surface p-6 shadow-pop"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-start justify-between">

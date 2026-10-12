@@ -205,7 +205,7 @@ export default function RepoChat({
       {open && <div className="fixed inset-0 z-20 bg-black/40 lg:hidden" onClick={onClose} />}
 
       <aside
-        className="chat-drawer absolute bottom-0 right-0 top-0 z-30 flex w-[400px] max-w-full flex-col border-l-2 border-line bg-paper shadow-pop max-lg:fixed max-lg:h-full"
+        className="chat-drawer absolute bottom-0 right-0 top-0 z-30 flex w-[400px] max-w-full flex-col border-l-2 border-line bg-paper shadow-pop max-lg:fixed max-lg:z-50 max-lg:h-dvh"
         data-open={open}
         aria-hidden={!open}
       >

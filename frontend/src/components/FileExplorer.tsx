@@ -76,7 +76,7 @@ function Row({
   return (
     <div>
       <div
-        className={`group flex w-full items-center gap-1 rounded-md py-[3px] pr-2 text-left text-[12.5px] transition ${
+        className={`group flex w-full items-center gap-1 rounded-md py-[3px] pr-2 max-sm:py-2 text-left text-[12.5px] transition ${
           inDiagram ? "border-2 border-line bg-lavend shadow-sm dark:bg-accent-soft" : "border-2 border-transparent hover:bg-sunken"
         }`}
         style={{ paddingLeft: `${depth * 14 + 4}px` }}
@@ -84,13 +84,13 @@ function Row({
         {node.isDir ? (
           <button
             onClick={() => setOpen((v) => !v)}
-            className="flex h-4 w-4 shrink-0 items-center justify-center rounded text-muted transition hover:text-ink"
+            className="flex h-4 w-4 shrink-0 items-center justify-center rounded text-muted transition hover:text-ink max-sm:h-6 max-sm:w-6"
             aria-label={open ? "Collapse folder" : "Expand folder"}
           >
             <ChevronRight size={12} className={`transition-transform ${open ? "rotate-90" : ""}`} />
           </button>
         ) : (
-          <span className="w-4 shrink-0" />
+          <span className="w-4 shrink-0 max-sm:w-6" />
         )}
         <a
           href={url}

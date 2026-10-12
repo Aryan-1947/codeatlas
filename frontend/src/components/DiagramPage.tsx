@@ -14,6 +14,7 @@ import {
   GitBranch,
   History,
   Loader2,
+  Network,
   MessageCircleQuestion,
   RefreshCw,
   Star,
@@ -150,7 +151,7 @@ function LoadingView({ refName, stage, filesScanned }: { refName: string; stage:
         </div>
       </div>
       <p className="mt-4 text-center font-mono text-[11px] font-medium text-muted">
-        reading the tree via the GitHub API. This usually takes a few seconds
+        Reading the tree via the GitHub API. This usually takes a few seconds
       </p>
     </div>
   );
@@ -208,6 +209,7 @@ export default function DiagramPage({ repoRef }: { repoRef: RepoRef }) {
   const [theme] = useTheme();
   const [tab, setTab] = useState<"overview" | "files">("overview");
   const [chatOpen, setChatOpen] = useState(false);
+  const [mobileView, setMobileView] = useState<"diagram" | "text">("diagram");
   const [demoMode, setDemoMode] = useState<"mounted" | "swap">("mounted");
 
   // Re-mount the canvas when the repository changes so stale SVG never lingers.
@@ -274,7 +276,10 @@ export default function DiagramPage({ repoRef }: { repoRef: RepoRef }) {
               <GitBranch size={11} strokeWidth={2.6} /> {repo.defaultBranch}
             </span>
             <button
-              onClick={() => setChatOpen((v) => !v)}
+              onClick={() => {
+                setChatOpen((v) => !v);
+                setMobileView("diagram");
+              }}
               className={`brut-press-sm flex items-center gap-1.5 rounded-lg border-2 border-line px-2.5 py-1.5 text-xs font-bold shadow-sm ${
                 chatOpen ? "bg-accent text-white" : "bg-banana text-[#141414]"
               }`}
@@ -304,10 +309,35 @@ export default function DiagramPage({ repoRef }: { repoRef: RepoRef }) {
         </div>
       </div>
 
+            {/* mobile view switcher (hidden on desktop) */}
+            <div className="flex border-b-2 border-line bg-surface lg:hidden">
+        <button
+          onClick={() => setMobileView("diagram")}
+          className={`flex flex-1 items-center justify-center gap-2 border-b-[3px] py-2.5 text-[13px] font-bold transition ${
+            mobileView === "diagram" ? "border-accent text-accent" : "border-transparent text-muted"
+          }`}
+        >
+          <Network size={14} strokeWidth={2.5} />
+          Diagram
+        </button>
+        <button
+          onClick={() => {
+            setMobileView("text");
+            setChatOpen(false);
+          }}
+          className={`flex flex-1 items-center justify-center gap-2 border-b-[3px] py-2.5 text-[13px] font-bold transition ${
+            mobileView === "text" ? "border-accent text-accent" : "border-transparent text-muted"
+          }`}
+        >
+          <BookOpenText size={14} strokeWidth={2.5} />
+          Walkthrough
+        </button>
+      </div>
+
       {/* main split */}
-      <div className="grid w-full flex-1 min-h-0 gap-0 overflow-hidden lg:grid-cols-[420px_1fr] lg:divide-x-2 lg:divide-line">
+      <div className="grid w-full flex-1 min-h-0 gap-0 overflow-hidden max-lg:grid-rows-[minmax(0,1fr)] lg:grid-cols-[420px_1fr] lg:divide-x-2 lg:divide-line">
         {/* left: walkthrough / explorer */}
-        <aside className="flex min-h-0 flex-col border-b-2 border-line bg-paper lg:h-full lg:border-b-0">
+        <aside className={`min-h-0 flex-col border-b-2 border-line bg-paper lg:flex lg:h-full lg:border-b-0 ${mobileView === "text" ? "flex" : "hidden"}`}>
           <div className="flex items-center gap-1 border-b-2 border-line bg-surface px-3 pt-2.5">
             <button
               onClick={() => setTab("overview")}
@@ -377,8 +407,8 @@ export default function DiagramPage({ repoRef }: { repoRef: RepoRef }) {
         </aside>
 
         {/* right: diagram canvas + chat drawer */}
-        <main className="relative h-full min-h-0 overflow-hidden">
-          {demoMode === "mounted" && <MermaidCanvas artifact={artifact} dark={theme === "dark"} />}
+        <main className={`relative h-full min-h-0 overflow-hidden lg:block ${mobileView === "diagram" ? "block" : "hidden"}`}>
+          {demoMode === "mounted" && <MermaidCanvas key={mobileView} artifact={artifact} dark={theme === "dark"} />}
 
           {/* floating ask button (canvas corner) */}
           <button

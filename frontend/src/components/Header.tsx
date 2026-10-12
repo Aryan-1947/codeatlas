@@ -46,7 +46,7 @@ function GithubTokenButton() {
         <span className="hidden sm:inline">{saved ? "Token saved" : "Access token"}</span>
       </button>
       {open && (
-        <div className="absolute right-0 top-full z-50 mt-2 w-72 overflow-hidden rounded-lg border-2 border-line bg-surface shadow-pop">
+        <div className="fixed inset-x-3 top-16 z-50 overflow-hidden rounded-lg border-2 border-line bg-surface shadow-pop sm:absolute sm:inset-x-auto sm:right-0 sm:top-full sm:mt-2 sm:w-72">
           <div className="border-b-2 border-line bg-sunken px-3.5 py-2.5">
             <p className="text-[12px] font-bold text-ink">GitHub access token</p>
             <p className="mt-0.5 text-[11px] font-medium leading-relaxed text-muted">
@@ -195,7 +195,7 @@ export default function Header() {
             </span>
             <span className="font-heavy text-[17px] tracking-tight">
               CodeAtlas
-              <sup className="ml-1.5 rounded-md border-2 border-line bg-banana px-1.5 py-px font-mono text-[9px] font-bold uppercase tracking-wider text-[#141414] shadow-sm">
+              <sup className="ml-1.5 hidden rounded-md border-2 border-line bg-banana px-1.5 py-px font-mono text-[9px] font-bold uppercase tracking-wider text-[#141414] shadow-sm sm:inline">
                 beta
               </sup>
             </span>

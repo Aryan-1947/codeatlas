@@ -230,7 +230,7 @@ export default function Landing() {
               <span className="pulse-dot h-1.5 w-1.5 rounded-full bg-[#0e8f6b]" />
               repository → diagram
             </p>
-            <h1 className="rise-in rise-2 mt-6 leading-[1.02] tracking-tight" style={{fontSize: "clamp(2.8rem, 7.5vw, 4.5rem)", fontFamily: "'Playfair Display', serif", fontWeight: 900}}>
+            <h1 className="rise-in rise-2 mt-6 leading-[1.02] tracking-tight" style={{fontSize: "clamp(2.4rem, 7.5vw, 4.5rem)", fontFamily: "'Playfair Display', serif", fontWeight: 900}}>
               <span className="hero-line block">Navigate any</span>
               <span className="hero-line block">codebase like</span>
               <span className="hero-accent block text-accent" style={{fontStyle: "italic"}}>a map.</span>
@@ -254,7 +254,7 @@ export default function Landing() {
           </div>
           <p className="hidden font-mono text-[11px] font-medium text-muted sm:block">a few repos to try first</p>
         </div>
-        <div className="grid gap-4 sm:grid-cols-2">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           {EXAMPLES.map((ex, i) => (
             <ExampleCard
               key={ex.fullName}
@@ -297,7 +297,7 @@ export default function Landing() {
       </div>
 
       {history.length > 0 ? (
-        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {history.slice(0, 6).map((h) => {
             const [owner, repo] = h.fullName.split("/");
             return (
@@ -352,7 +352,7 @@ export default function Landing() {
         <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
           <p className="font-mono text-[11px] font-bold uppercase tracking-wider text-accent">pipeline</p>
           <h2 className="mt-1 font-display text-2xl font-bold tracking-tight">How it works</h2>
-          <div className="mt-8 grid gap-5 sm:grid-cols-3">
+          <div className="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-3">
             {STEPS.map((step, i) => (
               <div key={step.title} className="brut-card relative rounded-xl border-2 border-line bg-paper p-5 shadow-card">
                 <div className="flex items-center justify-between">
@@ -375,7 +375,7 @@ export default function Landing() {
       <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
         <p className="font-mono text-[11px] font-bold uppercase tracking-wider text-accent">capabilities</p>
         <h2 className="mt-1 font-display text-2xl font-bold tracking-tight">Built for reading code</h2>
-        <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {FEATURES.map((f, i) => {
             const chips = ["bg-lavend", "bg-mint", "bg-amber-soft", "bg-rose-soft", "bg-sky", "bg-peach"];
             return (
@@ -428,8 +428,8 @@ export default function Landing() {
             <span className="font-heavy text-[15px]">CodeAtlas</span>
             <span className="font-mono text-xs font-medium text-muted">© {new Date().getFullYear()}</span>
           </div>
-          <p className="flex items-center gap-2 font-mono text-[11px] font-medium text-muted">
-  <span className="h-1.5 w-1.5 rounded-full bg-accent" />
+          <p className="flex flex-col items-center justify-center gap-2 text-center font-mono text-[11px] font-medium text-muted sm:flex-row">
+          <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-accent" />
   Diagrams, walkthroughs and repo chat for any GitHub codebase
 </p>
           <div className="flex items-center gap-2.5">

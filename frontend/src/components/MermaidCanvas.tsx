@@ -46,6 +46,7 @@ export default function MermaidCanvas({ artifact, dark }: Props) {
   const [copied, setCopied] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const fsSupported = typeof document !== "undefined" && Boolean(document.fullscreenEnabled);
   const drag = useRef<{ px: number; py: number; vx: number; vy: number; active: boolean }>({
     px: 0, py: 0, vx: 0, vy: 0, active: false,
   });
@@ -101,6 +102,7 @@ export default function MermaidCanvas({ artifact, dark }: Props) {
     if (!host || !w || !h) return;
     const pad = 48;
     const rect = host.getBoundingClientRect();
+    if (!rect.width || !rect.height) return; // canvas hidden (other mobile tab)
     const s = Math.min((rect.width - pad) / w, (rect.height - pad) / h, 1.4);
     setView({
       s: Math.max(0.1, s),
@@ -141,12 +143,37 @@ export default function MermaidCanvas({ artifact, dark }: Props) {
     return () => host.removeEventListener("wheel", onWheel);
   }, [zoomAt]);
 
+  const pointers = useRef(new Map<number, { x: number; y: number }>());
+  const pinch = useRef<{ dist: number } | null>(null);
+
   const onPointerDown = (e: React.PointerEvent) => {
     if ((e.target as HTMLElement).closest("button")) return;
+    if (e.pointerType === "mouse") pointers.current.clear();
+    pointers.current.set(e.pointerId, { x: e.clientX, y: e.clientY });
+    if (pointers.current.size === 2) {
+      const [a, b] = Array.from(pointers.current.values());
+      pinch.current = { dist: Math.hypot(a.x - b.x, a.y - b.y) };
+      drag.current.active = false;
+      return;
+    }
     moved.current = false;
     drag.current = { px: e.clientX, py: e.clientY, vx: view.x, vy: view.y, active: true };
   };
   const onPointerMove = (e: React.PointerEvent) => {
+    if (pointers.current.has(e.pointerId)) {
+      pointers.current.set(e.pointerId, { x: e.clientX, y: e.clientY });
+    }
+    if (pinch.current && pointers.current.size === 2) {
+      const [a, b] = Array.from(pointers.current.values());
+      const dist = Math.hypot(a.x - b.x, a.y - b.y);
+      const host = hostRef.current;
+      if (host && pinch.current.dist > 0) {
+        const rect = host.getBoundingClientRect();
+        zoomAt((a.x + b.x) / 2 - rect.left, (a.y + b.y) / 2 - rect.top, dist / pinch.current.dist);
+      }
+      pinch.current.dist = dist;
+      return;
+    }
     if (!drag.current.active) return;
     const dx = e.clientX - drag.current.px;
     const dy = e.clientY - drag.current.py;
@@ -157,7 +184,9 @@ export default function MermaidCanvas({ artifact, dark }: Props) {
     }
     setView((v) => ({ ...v, x: drag.current.vx + dx, y: drag.current.vy + dy }));
   };
-  const onPointerUp = () => {
+  const onPointerUp = (e: React.PointerEvent) => {
+    pointers.current.delete(e.pointerId);
+    if (pointers.current.size < 2) pinch.current = null;
     drag.current.active = false;
     moved.current = false;
   };
@@ -365,13 +394,15 @@ export default function MermaidCanvas({ artifact, dark }: Props) {
       </div>
 
       {/* Top-right fullscreen */}
-      <button
-        onClick={toggleFullscreen}
-        className="brut-press-sm absolute right-3 top-3 flex h-9 w-9 items-center justify-center rounded-lg border-2 border-line bg-surface text-ink shadow-card"
-        title={isFullscreen ? "Exit fullscreen" : "Fullscreen"}
-      >
-        {isFullscreen ? <Minimize2 size={14} strokeWidth={2.5} /> : <Maximize2 size={14} strokeWidth={2.5} />}
-      </button>
+      {fsSupported && (
+        <button
+          onClick={toggleFullscreen}
+          className="brut-press-sm absolute right-3 top-3 flex h-9 w-9 items-center justify-center rounded-lg border-2 border-line bg-surface text-ink shadow-card"
+          title={isFullscreen ? "Exit fullscreen" : "Fullscreen"}
+        >
+          {isFullscreen ? <Minimize2 size={14} strokeWidth={2.5} /> : <Maximize2 size={14} strokeWidth={2.5} />}
+        </button>
+      )}
 
       {/* Bottom-right zoom cluster */}
       <div className="absolute bottom-3 right-3 flex items-center gap-0.5 rounded-lg border-2 border-line bg-surface p-1 shadow-card">
